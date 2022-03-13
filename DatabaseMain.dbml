@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Database Name="DatabaseMain" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Table Name="Children">
+    <Type Name="Children">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="HomeAddress" Type="System.String" DbType="NVarChar(40) NOT NULL" CanBeNull="false" />
+      <Column Name="DateOfBirth" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="ChildsPhoneNumber" Type="System.String" DbType="NVarChar(21) NOT NULL" CanBeNull="false" />
+      <Column Name="FioChildren" Type="System.String" DbType="NVarChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="GroupId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Children_Groups" Member="Groups" ThisKey="GroupId" OtherKey="ID" Type="Groups" IsForeignKey="true" />
+      <Association Name="Parents_Children" Member="Parents" ThisKey="ID" OtherKey="ChildrenId" Type="Parents" DeleteRule="NO ACTION" />
+    </Type>
+  </Table>
+  <Table Name="Groups">
+    <Type Name="Groups">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="TypeOfActivity" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="MaxNumberOfChildren" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="MinAgeInTheGroup" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="MaxAgeInTheGroup" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="CostOfaMonthOfTraining" Type="System.Decimal" DbType="Money NOT NULL" CanBeNull="false" />
+      <Association Name="Children_Groups" Member="Children" ThisKey="ID" OtherKey="GroupId" Type="Children" DeleteRule="NO ACTION" />
+      <Association Name="Schedule_Groups" Member="Schedule" ThisKey="ID" OtherKey="GroupId" Type="Schedule" DeleteRule="NO ACTION" />
+    </Type>
+  </Table>
+  <Table Name="Parents">
+    <Type Name="Parents">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="FioParents" Type="System.String" DbType="NVarChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="ParentsPhoneNumber" Type="System.String" DbType="NVarChar(21) NOT NULL" CanBeNull="false" />
+      <Column Name="ChildrenId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Parents_Children" Member="Children" ThisKey="ChildrenId" OtherKey="ID" Type="Children" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="Schedule">
+    <Type Name="Schedule">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ClassDateTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="Duration_minutes" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="TeacherId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="GroupId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Schedule_Groups" Member="Groups" ThisKey="GroupId" OtherKey="ID" Type="Groups" IsForeignKey="true" />
+      <Association Name="Schedule_Teachers" Member="Teachers" ThisKey="TeacherId" OtherKey="ID" Type="Teachers" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="Teachers">
+    <Type Name="Teachers">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Fio" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="DateOfBirth" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="Specialization" Type="System.String" DbType="NVarChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="WorkExperience" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Salary" Type="System.Decimal" DbType="Money NOT NULL" CanBeNull="false" />
+      <Association Name="Schedule_Teachers" Member="Schedule" ThisKey="ID" OtherKey="TeacherId" Type="Schedule" DeleteRule="NO ACTION" />
+    </Type>
+  </Table>
+</Database>
